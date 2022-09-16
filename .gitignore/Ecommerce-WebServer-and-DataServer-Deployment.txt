@@ -1,0 +1,89 @@
+Let us now setup the complete app - both web and database - on a single server. 
+Install mariadb and start the process with default conf. 
+Ensure that process is started on server reboot.
+
+Run the command: sudo yum install -y mariadb-server to install
+
+Run the command: sudo systemctl start mariadb to start the process
+
+Run the command: sudo systemctl enable mariadb to ensure that process is started on server reboot.
+
+
+2. Step
+Configure Database as below
+
+DATABASE : ecomdb
+
+USER : 'ecomuser'@'localhost'
+
+PASSWORD: ecompassword
+
+PRIVILEGES : ALL PRIVILEGES ON *.* TO 'ecomuser'@'localhost'
+
+Note: Run sudo mysql command to get into MYSQL shell.
+
+2.Step Hint
+Run sudo mysql command to get into MYSQL shell then run below commands (in capital alphabets)
+
+MariaDB > CREATE DATABASE ecomdb;
+
+MariaDB > CREATE USER 'ecomuser'@'localhost' IDENTIFIED BY 'ecompassword';
+
+MariaDB > GRANT ALL PRIVILEGES ON *.* TO 'ecomuser'@'localhost';
+
+MariaDB > FLUSH PRIVILEGES;
+
+3.Step 
+We have downloaded Product Inventory Information db-load-script.sql in /opt directory. 
+Load /opt/db-load-script.sql in mysql
+3.Hint
+Run sudo mysql < /opt/db-load-script.sql
+
+4.Step
+Install below packages
+
+httpd, 
+php
+php-mysqlnd
+
+4.Hint
+Run sudo yum install -y httpd php php-mysqlnd
+
+5.Step
+Make the php page the default page for httpd.
+
+Update the httpd.conf file to use index.php instead of index.html
+
+5.Hint
+Run sudo sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
+
+
+6.Step
+Start and enable httpd
+
+6.Hint
+Run sudo systemctl start httpd ; sudo systemctl enable httpd
+
+7.Step
+Download code with git. Install git if necessary
+
+GIT repo URL : https://github.com/kodekloudhub/learning-app-ecommerce.git
+
+target directory : /var/www/html/
+
+7.Hint
+Run
+sudo yum install -y git; 
+sudo git clone https://github.com/kodekloudhub/learning-app-ecommerce.git /var/www/html/
+
+8.Step
+Since we have both the web and database on the same server, 
+update the IP address configured in index.php file to localhost.
+
+Change 172.20.1.101 to localhost in index.php file.
+
+8.Hint
+Use VI editor to edit the index.php file OR run the command to update IP:
+sudo sed -i 's/172.20.1.101/localhost/g' /var/www/html/index.php 
+
+9.Step
